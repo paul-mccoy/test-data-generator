@@ -1,0 +1,3 @@
+field_name,data_type,length,field_type
+nhs_number,character,15,nhs_number
+test_text,character,30,
