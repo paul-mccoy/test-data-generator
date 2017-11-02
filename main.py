@@ -59,6 +59,26 @@ def nhs_number(allow_invalid):
             nhs = create_nhs_number()
         return nhs
 
+def generate_row():
+    output_row = ""
+    for row in range(len(field_settings)):
+        data_type = field_settings[row][1]
+        field_length = field_settings[row][2]
+        field_type = field_settings[row][3]
+
+        if field_length == "":
+            field_length = 0
+
+        #field_type determines how data is generated
+        if field_type == "nhs_number":
+            output_row = output_row + nhs_number(0) + ","
+        else: #generic field
+            output_row = output_row + str(generic(data_type,int(field_length),0,65000))+","
+
+        #output row to text file
+    output_row = output_row[:-1]
+    return output_row
+
 ####### END FUNCTION DECLARATIONS #########
 
 #Load dictionary
@@ -87,19 +107,7 @@ print header_row
 data_type = ""
 field_length = 0
 field_type = ""
-output_row = ""
 
-for row in range(len(field_settings)):
-    data_type = field_settings[row][1]
-    field_length = field_settings[row][2]
-    field_type = field_settings[row][3]
 
-    #field_type determines how data is generated
-    if field_type == "nhs_number":
-        output_row = output_row + nhs_number(0) + ","
-    else: #generic field
-        output_row = output_row + str(generic(data_type,int(field_length),0,65000))+","
 
-    #output row to text file
-output_row = output_row[:-1]
-print output_row
+print generate_row()

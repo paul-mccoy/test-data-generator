@@ -2,4 +2,4 @@ field_name,data_type,length,field_type
 nhs_number,character,15,nhs_number
 test_text,character,30,
 more_test,character,8,
-numeric_field,numeric,0,
+numeric_field,numeric,,
