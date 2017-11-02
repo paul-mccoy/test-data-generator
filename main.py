@@ -1,4 +1,5 @@
 import csv
+from random import randint
 
 ####### BEGIN FUNTION DECLARATIONS #########
 
@@ -41,7 +42,6 @@ def nhs_number(allow_invalid):
     if allow_invalid == 1:
         return create_nhs_number()
     else:
-        print "invalid not allowed"
         nhs = create_nhs_number()
         while nhs == "0":
             nhs = create_nhs_number()
@@ -51,7 +51,7 @@ def nhs_number(allow_invalid):
 
 #Load dictionary
 with open("all_words.csv") as f:
-    lines = [line.rstrip('\n') for line in f]
+    words = [line.rstrip('\n') for line in f]
 
 #Load settings file into a list
 datafile = open('field_settings.csv', 'r')
@@ -62,3 +62,12 @@ for row in datareader:
 
 #Delete header row from field settings list
 del field_settings[0]
+
+### Begin main program
+
+#Create header row for output file
+header_row = ""
+for row in range(len(field_settings)):
+    header_row = header_row + field_settings[row][0] + ","
+header_row = header_row[:-1]
+print header_row

@@ -1,4 +1,5 @@
 from random import randint
+import csv
 
 def create_nhs_number():
     #initialise list
@@ -35,7 +36,54 @@ def create_nhs_number():
         nhs_number_complete = nhs_number_complete + str(check_digit)
         return nhs_number_complete
 
-while True:
-    create_nhs_number()
-    if create_nhs_number() == "0":
-        break
+def nhs_number(allow_invalid):
+    if allow_invalid == 1:
+        return create_nhs_number()
+    else:
+        nhs = create_nhs_number()
+        while nhs == "0":
+            nhs = create_nhs_number()
+        return nhs
+
+#Load dictionary
+with open("all_words.csv") as f:
+    words = [line.rstrip('\n') for line in f]
+
+#Load settings file into a list
+datafile = open('field_settings.csv', 'r')
+datareader = csv.reader(datafile,delimiter=',')
+field_settings = []
+for row in datareader:
+    field_settings.append(row)
+
+#Delete header row from field settings list
+del field_settings[0]
+
+### Begin main program
+
+#Loop through each row in field settings
+#for row in range(len(field_settings)):
+#    for column in range(len(field_settings[row])):
+#        #generate
+#        print(field_settings[row][column])
+#
+#    #output row to text file
+
+datatype = ""
+field_length = 0
+field_type = ""
+output_row = ""
+
+for row in range(len(field_settings)):
+    data_type = field_settings[row][1]
+    field_length = field_settings[row][2]
+    field_type = field_settings[row][3]
+
+    #field_type determines how data is generated
+    if field_type == "nhs_number":
+        output_row = output_row + nhs_number(0) + ","
+    else: #generic field
+        output_row = output_row + "some test text" + ","
+
+    #output row to text file
+print output_row
