@@ -1,7 +1,19 @@
-import csv
+import csv,string,random
 from random import randint
 
 ####### BEGIN FUNTION DECLARATIONS #########
+
+def generic(type, length, minval=0, maxval=0):
+    if type == "character":
+        generic_output = ""
+        i = 0
+        while i < length:
+            generic_output = generic_output + random.choice(string.ascii_uppercase+string.ascii_lowercase)
+            i = i+1
+        return generic_output
+    else:
+        generic_output = randint(minval,maxval)
+        return generic_output
 
 def create_nhs_number():
     #initialise list
@@ -71,3 +83,23 @@ for row in range(len(field_settings)):
     header_row = header_row + field_settings[row][0] + ","
 header_row = header_row[:-1]
 print header_row
+
+data_type = ""
+field_length = 0
+field_type = ""
+output_row = ""
+
+for row in range(len(field_settings)):
+    data_type = field_settings[row][1]
+    field_length = field_settings[row][2]
+    field_type = field_settings[row][3]
+
+    #field_type determines how data is generated
+    if field_type == "nhs_number":
+        output_row = output_row + nhs_number(0) + ","
+    else: #generic field
+        output_row = output_row + str(generic(data_type,int(field_length),0,65000))+","
+
+    #output row to text file
+output_row = output_row[:-1]
+print output_row
