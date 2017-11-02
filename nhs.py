@@ -7,8 +7,9 @@ nhs_number = []
 for i in range(0,9):
     nhs_number.append(randint(0, 9))
 
-digit_sum = 0
+digit_sum = 0 #stores sum of digits to calculate checksum digit
 
+#concatentate all 9 digits as a string
 nhs_number_complete = ""
 for i in nhs_number:
     nhs_number_complete = nhs_number_complete + str(i)
