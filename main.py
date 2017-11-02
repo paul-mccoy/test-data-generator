@@ -97,17 +97,28 @@ del field_settings[0]
 
 ### Begin main program
 
+#Output all goes in here
+output_array = []
+
 #Create header row for output file
 header_row = ""
 for row in range(len(field_settings)):
     header_row = header_row + field_settings[row][0] + ","
-header_row = header_row[:-1]
-print header_row
+
+output_array.append(header_row[:-1])
+
 
 data_type = ""
 field_length = 0
 field_type = ""
 
+output_array.append(generate_row())
+output_array.append(generate_row())
+output_array.append(generate_row())
+output_array.append(generate_row())
 
 
-print generate_row()
+output_file = open('output.csv', 'w')
+
+for item in output_array:
+  output_file.write("%s\n" % item)
