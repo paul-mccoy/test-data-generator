@@ -59,6 +59,14 @@ def nhs_number(allow_invalid):
             nhs = create_nhs_number()
         return nhs
 
+def forename():
+    forename = ""
+    return forenames[randint(0,len(forenames))]
+
+def last_name():
+    last_name = ""
+    return last_names[randint(0,len(last_names))]
+
 def generate_row():
     output_row = ""
     for row in range(len(field_settings)):
@@ -72,6 +80,10 @@ def generate_row():
         #field_type determines how data is generated
         if field_type == "nhs_number":
             output_row = output_row + nhs_number(0) + ","
+        elif field_type == "forename":
+            output_row = output_row + forename() + ","
+        elif field_type == "last_name":
+            output_row = output_row + last_name() + ","
         else: #generic field
             output_row = output_row + str(generic(data_type,int(field_length),0,65000))+","
 
@@ -84,6 +96,17 @@ def generate_row():
 #Load dictionary
 with open(os.path.join("data","all_words.csv")) as f:
     words = [line.rstrip('\n') for line in f]
+f.close
+
+#Load forenames
+with open(os.path.join("data","first_names.csv")) as f:
+    forenames = [line.rstrip('\n') for line in f]
+f.close
+
+#Load last_names
+with open(os.path.join("data","last_names.csv")) as f:
+    last_names = [line.rstrip('\n') for line in f]
+f.close
 
 #Load settings file into a list
 datafile = open('field_settings.csv', 'r')
