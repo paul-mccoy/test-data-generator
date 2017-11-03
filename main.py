@@ -1,4 +1,4 @@
-import csv,string,random
+import csv,string,random,os
 from random import randint
 
 ####### BEGIN FUNTION DECLARATIONS #########
@@ -82,7 +82,7 @@ def generate_row():
 ####### END FUNCTION DECLARATIONS #########
 
 #Load dictionary
-with open("all_words.csv") as f:
+with open(os.path.join("data","all_words.csv")) as f:
     words = [line.rstrip('\n') for line in f]
 
 #Load settings file into a list
@@ -97,6 +97,9 @@ del field_settings[0]
 
 ### Begin main program
 
+#Request number of rows from user
+test_data_rows = input("How many rows of test data do you need? (Enter an integer, please!) ")
+
 #Output all goes in here
 output_array = []
 
@@ -105,19 +108,21 @@ header_row = ""
 for row in range(len(field_settings)):
     header_row = header_row + field_settings[row][0] + ","
 
-output_array.append(header_row[:-1])
+output_array.append(header_row[:-1]) #write header row to output list
 
 
 data_type = ""
 field_length = 0
 field_type = ""
 
-output_array.append(generate_row())
-output_array.append(generate_row())
-output_array.append(generate_row())
-output_array.append(generate_row())
+#print test_data_rows
 
+i = 0
+while i < test_data_rows:
+    output_array.append(generate_row())
+    i = i+1
 
+#Output array to text file
 output_file = open('output.csv', 'w')
 
 for item in output_array:
