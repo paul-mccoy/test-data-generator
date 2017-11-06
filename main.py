@@ -3,19 +3,20 @@ from random import randint
 
 ####### BEGIN FUNTION DECLARATIONS #########
 
-def generic(type, length, minval=0, maxval=0):
-    if type == "character":
-        generic_output = ""
-        i = 0
-        while i < length:
-            generic_output = generic_output + random.choice(string.ascii_uppercase+string.ascii_lowercase)
-            i = i+1
-        return generic_output
-    else:
-        generic_output = randint(minval,maxval)
-        return generic_output
+def create_character(min_length, max_length):
+    output = ""
+    i = 0
+    while i < max_length:
+        output = output + random.choice(string.ascii_uppercase+string.ascii_lowercase)
+        i = i+1
+    return output
 
-def create_nhs_number():
+
+def create_numeric(min_length,max_length):
+    output = str(randint(min_length,max_length))
+    return output
+
+def nhs_number():
     #initialise list
     nhs_number = []
 
@@ -50,42 +51,45 @@ def create_nhs_number():
         nhs_number_complete = nhs_number_complete + str(check_digit)
         return nhs_number_complete
 
-def nhs_number(allow_invalid):
+def create_nhs_number(allow_invalid):
     if allow_invalid == 1:
-        return create_nhs_number()
+        return nhs_number()
     else:
-        nhs = create_nhs_number()
+        nhs = nhs_number()
         while nhs == "0":
-            nhs = create_nhs_number()
+            nhs = nhs_number()
         return nhs
 
-def forename():
-    forename = ""
-    return forenames[randint(0,len(forenames))]
+def create_first_name():
+    return first_names[randint(0,len(first_names)-1)]
 
-def last_name():
+def create_last_name():
     last_name = ""
-    return last_names[randint(0,len(last_names))]
+    return last_names[randint(0,len(last_names)-1)]
 
 def generate_row():
     output_row = ""
-    for row in range(len(field_settings)):
-        data_type = field_settings[row][1]
-        field_length = field_settings[row][2]
+    for row in range(len(field_settings)): #For each field specified in the settings file
+        min_length = int(field_settings[row][1])
+        max_length = int(field_settings[row][2])
         field_type = field_settings[row][3]
 
-        if field_length == "":
-            field_length = 0
+        if min_length == "":
+            min_length = 0
 
         #field_type determines how data is generated
         if field_type == "nhs_number":
-            output_row = output_row + nhs_number(0) + ","
-        elif field_type == "forename":
-            output_row = output_row + forename() + ","
+            output_row = output_row + create_nhs_number(0) + ","
+        elif field_type == "first_name":
+            output_row = output_row + create_first_name() + ","
         elif field_type == "last_name":
-            output_row = output_row + last_name() + ","
-        else: #generic field
-            output_row = output_row + str(generic(data_type,int(field_length),0,65000))+","
+            output_row = output_row + create_last_name() + ","
+        elif field_type == "numeric":
+            output_row = output_row + create_numeric(min_length,max_length) + ","
+        elif field_type == "character":
+            output_row = output_row + create_character(0,max_length) + ","
+        else:
+            output_row = output_row + "INCORRECT FIELD TYPE,"
 
         #output row to text file
     output_row = output_row[:-1]
@@ -100,7 +104,7 @@ f.close
 
 #Load forenames
 with open(os.path.join("data","first_names.csv")) as f:
-    forenames = [line.rstrip('\n') for line in f]
+    first_names = [line.rstrip('\n') for line in f]
 f.close
 
 #Load last_names
@@ -135,7 +139,7 @@ output_array.append(header_row[:-1]) #write header row to output list
 
 
 data_type = ""
-field_length = 0
+max_length = 0
 field_type = ""
 
 #print test_data_rows

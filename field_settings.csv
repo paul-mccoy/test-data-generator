@@ -1,7 +1,6 @@
 field_name,data_type,length,field_type
-nhs_number,character,15,nhs_number
-forename,character,128,forename
-last_name,character,128,last_name
-test_text,character,30,
-more_test,character,8,
-numeric_field,numeric,,
+DEC_NHS_NUMBER,0,15,first_name
+DEC_CONF_NHS_NUMBER,0,15,first_name
+DEC_1ST_FORENAME,0,128,nhs_number
+DEC_2ND_FORENAME,0,128,nhs_numbe
+TEST,0,100,character
