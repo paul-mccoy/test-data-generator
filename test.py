@@ -1,11 +1,33 @@
-import csv,string,random,os,pyodbc
+import csv,string,random,os,pyodbc,faker
 from random import randint
+from faker import Faker
 
-with open(os.path.join("data","postcode.csv")) as f:
-    postcodes = [line.rstrip('\n') for line in f]
+fake = Faker()
+
+#Load config file into a list
+f = open('config.csv', 'r')
+datareader = csv.reader(f,delimiter=',')
+config = []
+for row in datareader:
+    config.append(row)
 f.close
 
-def create_postcode():
-    return random.choice(postcodes)
+#Delete header row from config list
+del config[0]
 
-print create_postcode()
+print config
+
+if "date_format" in config:
+    print "yeah!"
+
+print fake.date_time()
+
+
+
+def in_list(item,L):
+    for i in L:
+        if item in i:
+            return L.index(i)
+    return -1
+
+print config[in_list('date_format',config)][1]

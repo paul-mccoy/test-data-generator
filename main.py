@@ -9,10 +9,19 @@ script_start_time = datetime.now()
 
 ####### BEGIN FUNTION DECLARATIONS #########
 
-def create_character(min_length, max_length):
+def create_char_fixed(min_length, max_length):
     output = ""
     i = 0
     while i < max_length:
+        output = output + random.choice(string.ascii_uppercase+string.ascii_lowercase)
+        i = i+1
+    return output
+
+def create_char_var(min_length, max_length):
+    output = ""
+    i = 0
+    y = randint(1,max_length)
+    while i < y:
         output = output + random.choice(string.ascii_uppercase+string.ascii_lowercase)
         i = i+1
     return output
@@ -116,8 +125,10 @@ def generate_row():
             output_row = output_row + create_text(min_length,max_length) + ","
         elif field_type == "numeric":
             output_row = output_row + create_numeric(min_length,max_length) + ","
-        elif field_type == "character":
-            output_row = output_row + create_character(0,max_length) + ","
+        elif field_type == "char_fixed":
+            output_row = output_row + create_char_fixed(0,max_length) + ","
+        elif field_type == "char_var":
+            output_row = output_row + create_char_var(0,max_length) + ","
         elif field_type == "postcode":
             output_row = output_row + create_postcode() + ","
         else:
@@ -126,6 +137,12 @@ def generate_row():
         #output row to text file
     output_row = output_row[:-1]
     return output_row
+
+def in_list(item,L): #used to get items from config file, eg config[in_list("config item")][1]
+    for i in L:
+        if item in i:
+            return L.index(i)
+    return -1
 
 ####### END FUNCTION DECLARATIONS #########
 
@@ -149,7 +166,7 @@ with open(os.path.join("data","postcode.csv")) as f:
     postcodes = [line.rstrip('\n') for line in f]
 f.close
 
-#Load settings file into a list
+#Load field_settings file into a list
 datafile = open('field_settings.csv', 'r')
 datareader = csv.reader(datafile,delimiter=',')
 field_settings = []
@@ -158,6 +175,17 @@ for row in datareader:
 
 #Delete header row from field settings list
 del field_settings[0]
+
+#Load config file into a list
+f = open('config.csv', 'r')
+datareader = csv.reader(f,delimiter=',')
+config = []
+for row in datareader:
+    config.append(row)
+f.close
+
+#Delete header row from config list
+del config[0]
 
 ### Begin main program
 
