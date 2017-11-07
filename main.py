@@ -2,6 +2,9 @@ import csv,string,random,os
 from random import randint
 from datetime import datetime
 
+#Request number of rows from user
+test_data_rows = input("How many rows of test data do you need? (Enter an integer, please!) ")
+
 script_start_time = datetime.now()
 
 ####### BEGIN FUNTION DECLARATIONS #########
@@ -82,6 +85,9 @@ def create_nhs_number(allow_invalid):
             nhs = nhs_number()
         return nhs
 
+def create_postcode():
+    return random.choice(postcodes)
+
 def create_first_name():
     return first_names[randint(0,len(first_names)-1)]
 
@@ -112,6 +118,8 @@ def generate_row():
             output_row = output_row + create_numeric(min_length,max_length) + ","
         elif field_type == "character":
             output_row = output_row + create_character(0,max_length) + ","
+        elif field_type == "postcode":
+            output_row = output_row + create_postcode() + ","
         else:
             output_row = output_row + "INCORRECT FIELD TYPE,"
 
@@ -136,6 +144,11 @@ with open(os.path.join("data","last_names.csv")) as f:
     last_names = [line.rstrip('\n') for line in f]
 f.close
 
+#load postcodes
+with open(os.path.join("data","postcode.csv")) as f:
+    postcodes = [line.rstrip('\n') for line in f]
+f.close
+
 #Load settings file into a list
 datafile = open('field_settings.csv', 'r')
 datareader = csv.reader(datafile,delimiter=',')
@@ -148,8 +161,7 @@ del field_settings[0]
 
 ### Begin main program
 
-#Request number of rows from user
-test_data_rows = input("How many rows of test data do you need? (Enter an integer, please!) ")
+
 
 #Output all goes in here
 output_array = []

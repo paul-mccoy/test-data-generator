@@ -40,7 +40,7 @@ INFAD_LINE_3,0,128,character
 INFAD_LINE_4,0,128,character
 INFAD_TOWN,0,64,character
 INFAD_COUNTY,0,64,character
-INFAD_POSTCODE,0,28,character
+INFAD_POSTCODE,0,28,postcode
 REG_DISTRICT_CODE,0,3,character
 REG_SUB_DISTRICT_CODE,0,2,character
 REG_NUMBER,0,5,character
