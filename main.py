@@ -1,5 +1,7 @@
-import csv,string,random,os
+import csv,string,random,os,faker
 from random import randint
+from datetime import datetime
+from faker import Faker
 from datetime import datetime
 
 #Request number of rows from user
@@ -95,7 +97,7 @@ def create_nhs_number(allow_invalid):
         return nhs
 
 def create_postcode():
-    return random.choice(postcodes)
+    return faker.postcode()
 
 def create_first_name():
     return first_names[randint(0,len(first_names)-1)]
@@ -104,36 +106,47 @@ def create_last_name():
     last_name = ""
     return last_names[randint(0,len(last_names)-1)]
 
+def create_datetime_range(min_date, max_date):
+    d1 = datetime.strptime(min_date, '%Y-%m-%d %H:%M:%S')
+    d2 = datetime.strptime(max_date, '%Y-%m-%d %H:%M:%S')
+    return fake.date_between_dates(date_start=d1, date_end=d2)
+
+
 def generate_row():
     output_row = ""
     for row in range(len(field_settings)): #For each field specified in the settings file
-        min_length = int(field_settings[row][1])
-        max_length = int(field_settings[row][2])
+        min_length = field_settings[row][1]
+        max_length = field_settings[row][2]
         field_type = field_settings[row][3]
+        percent_completed = int(field_settings[row][4])
 
         if min_length == "":
             min_length = 0
 
-        #field_type determines how data is generated
-        if field_type == "nhs_number":
-            output_row = output_row + create_nhs_number(0) + delimiter
-        elif field_type == "first_name":
-            output_row = output_row + create_first_name() + delimiter
-        elif field_type == "last_name":
-            output_row = output_row + create_last_name() + delimiter
-        elif field_type == "text":
-            output_row = output_row + create_text(min_length,max_length) + delimiter
-        elif field_type == "numeric":
-            output_row = output_row + create_numeric(min_length,max_length) + delimiter
-        elif field_type == "char_fixed":
-            output_row = output_row + create_char_fixed(0,max_length) + delimiter
-        elif field_type == "char_var":
-            output_row = output_row + create_char_var(0,max_length) + delimiter
-        elif field_type == "postcode":
-            output_row = output_row + create_postcode() + delimiter
+        if randint(0,100) <= percent_completed:
+            #field_type determines how data is generated
+            if field_type == "nhs_number":
+                output_row = output_row + create_nhs_number(0) + delimiter
+            elif field_type == "first_name":
+                output_row = output_row + create_first_name() + delimiter
+            elif field_type == "last_name":
+                output_row = output_row + create_last_name() + delimiter
+            elif field_type == "text":
+                output_row = output_row + create_text(int(min_length),int(max_length)) + delimiter
+            elif field_type == "numeric":
+                output_row = output_row + create_numeric(int(min_length),int(max_length)) + delimiter
+            elif field_type == "char_fixed":
+                output_row = output_row + create_char_fixed(0,int(max_length)) + delimiter
+            elif field_type == "char_var":
+                output_row = output_row + create_char_var(0,int(max_length)) + delimiter
+            elif field_type == "postcode":
+                output_row = output_row + create_postcode() + delimiter
+            elif field_type == "datetime_range":
+                output_row = output_row + str(create_datetime_range(min_length,max_length)) + delimiter
+            else:
+                output_row = output_row + "INCORRECT FIELD TYPE" + delimiter
         else:
-            output_row = output_row + "INCORRECT FIELD TYPE" + delimiter
-
+            output_row = output_row + delimiter
         #output row to text file
     output_row = output_row[:-1]
     return output_row
@@ -143,6 +156,8 @@ def in_list(item,L): #used to get items from config file, eg config[in_list("con
         if item in i:
             return L.index(i)
     return -1
+
+fake = Faker('en_GB') #used for postcode, address functions and date/times
 
 ####### END FUNCTION DECLARATIONS #########
 
@@ -167,7 +182,7 @@ with open(os.path.join("data","postcode.csv")) as f:
 f.close
 
 #Load field_settings file into a list
-datafile = open('field_settings.csv', 'r')
+datafile = open('field_settings_beta.csv', 'r')
 datareader = csv.reader(datafile,delimiter=',')
 field_settings = []
 for row in datareader:
