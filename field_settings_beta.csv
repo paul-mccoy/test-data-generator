@@ -1,0 +1,12 @@
+field_name,data_type,length,field_type,percent_completed
+RECORD_TYPE,1,1,numeric,100
+DEC_NHS_NUMBER,0,15,nhs_number,70
+DEC_CONF_NHS_NUMBER,0,15,nhs_number,100
+DEC_1ST_FORENAME,0,128,first_name,100
+DEC_2ND_FORENAME,0,128,first_name,50
+DEC_3RD_FORENAME,0,128,first_name,10
+DEC_4TH_FORENAME,0,150,first_name,5
+DEC_EXTRA_FORENAME,0,150,first_name,5
+DEC_SURNAME,0,128,last_name,100
+DEC_ALIASD1,0,1152,text,20
+DEC_ALIASD2,0,40,char_var,5

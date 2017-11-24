@@ -30,4 +30,4 @@ def in_list(item,L):
             return L.index(i)
     return -1
 
-print config[in_list('date_format',config)][1]
+print config[in_list('delimiter',config)][1]

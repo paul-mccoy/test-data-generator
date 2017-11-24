@@ -1,2 +1,4 @@
 setting,value
 date_format,%Y-%m-%d
+output_filename,output.csv
+delimiter,|
