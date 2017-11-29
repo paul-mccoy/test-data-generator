@@ -3,6 +3,10 @@ from random import randint
 from datetime import datetime
 from faker import Faker
 from datetime import datetime
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 #Request number of rows from user
 test_data_rows = input("How many rows of test data do you need? (Enter an integer, please!) ")
