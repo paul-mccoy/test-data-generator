@@ -22,7 +22,7 @@ del config[0]
 
 print config
 
-print fake.date_time()
+print fake.postcode()
 
 
 

@@ -97,7 +97,7 @@ def create_nhs_number(allow_invalid):
         return nhs
 
 def create_postcode():
-    return faker.postcode()
+    return fake.postcode()
 
 def create_first_name():
     return first_names[randint(0,len(first_names)-1)]
@@ -181,16 +181,6 @@ with open(os.path.join("data","postcode.csv")) as f:
     postcodes = [line.rstrip('\n') for line in f]
 f.close
 
-#Load field_settings file into a list
-datafile = open('field_settings_beta.csv', 'r')
-datareader = csv.reader(datafile,delimiter=',')
-field_settings = []
-for row in datareader:
-    field_settings.append(row)
-
-#Delete header row from field settings list
-del field_settings[0]
-
 #Load config file into a list
 f = open('config.csv', 'r')
 datareader = csv.reader(f,delimiter=',')
@@ -204,6 +194,18 @@ delimiter = config[in_list('delimiter',config)][1]
 #Delete header row from config list
 del config[0]
 
+#Load field_settings file into a list
+settings_file = config[in_list('field_settings_filename',config)][1]
+
+datafile = open(settings_file, 'r')
+datareader = csv.reader(datafile,delimiter=',')
+field_settings = []
+for row in datareader:
+    field_settings.append(row)
+
+#Delete header row from field settings list
+del field_settings[0]
+
 ### Begin main program
 
 
@@ -214,7 +216,7 @@ output_array = []
 #Create header row for output file
 header_row = ""
 for row in range(len(field_settings)):
-    header_row = header_row + field_settings[row][0] + ","
+    header_row = header_row + field_settings[row][0] + delimiter
 
 output_array.append(header_row[:-1]) #write header row to output list
 
