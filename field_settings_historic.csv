@@ -136,4 +136,4 @@ ICD9_13,,5,char_fixed,40
 ICD9_14,,5,char_fixed,40
 ICD9_15,,5,char_fixed,40
 CODFFT,,500,text,25
-RON_ID,,9,char_var,100
+RON_ID,,9,char_fixed,100

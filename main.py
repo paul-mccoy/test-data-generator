@@ -15,6 +15,13 @@ script_start_time = datetime.now()
 
 ####### BEGIN FUNTION DECLARATIONS #########
 
+def create_numeric_fixed(length):
+    #generate first 9 digits and store each seperately in the list
+    output = ""
+    for i in range(0,length):
+        output = output + str(randint(0, 9))
+    return output
+
 def create_char_fixed(min_length, max_length):
     output = ""
     i = 0
@@ -139,6 +146,8 @@ def generate_row():
                 output_row = output_row + create_text(int(min_length),int(max_length)) + delimiter
             elif field_type == "numeric":
                 output_row = output_row + create_numeric(int(min_length),int(max_length)) + delimiter
+            elif field_type == "numeric_fixed":
+                output_row = output_row + create_numeric_fixed(int(max_length)) + delimiter
             elif field_type == "char_fixed":
                 output_row = output_row + create_char_fixed(0,int(max_length)) + delimiter
             elif field_type == "char_var":
