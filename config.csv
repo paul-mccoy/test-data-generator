@@ -1,5 +1,4 @@
 setting,value
 date_format,%Y-%m-%d
-output_filename,weekly10k.dat
 delimiter,|
-field_settings_filename,field_settings_current_flow.csv
+field_settings_filename,field_settings_historic.csv

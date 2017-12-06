@@ -3,12 +3,14 @@ from random import randint
 from datetime import datetime
 from faker import Faker
 from datetime import datetime
-import sys
+#import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 
 #Request number of rows from user
+
+output_filename = raw_input("Output filename and extension? ")
 test_data_rows = input("How many rows of test data do you need? (Enter an integer, please!) ")
 
 script_start_time = datetime.now()
@@ -40,24 +42,7 @@ def create_char_var(min_length, max_length):
     return output
 
 def create_text(min_length, max_length):
-    output = ""
-    new_output = ""
-
-    i = 0
-    while i < int(max_length):
-
-        if len(new_output) == 0:
-            new_output = random.choice(words)
-        else:
-            new_output = new_output + " " + random.choice(words)
-#        print len(new_output)
-#        print max_length
-
-        if len(new_output) < max_length:
-            output = new_output
-        i = len(new_output)
-
-    return output
+    return string.replace(fake.text(max_length),'\n','')
 
 def create_numeric(min_length,max_length):
     output = str(randint(min_length,max_length))
@@ -248,7 +233,7 @@ while i < test_data_rows:
 print "Writing data to output file"
 
 #Output array to text file
-output_file = open('output.csv', 'w')
+output_file = open(os.path.join("output",output_filename), 'w')
 
 for item in output_array:
   output_file.write("%s\n" % item)
