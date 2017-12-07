@@ -1,4 +1,4 @@
 setting,value
 date_format,%Y-%m-%d
-delimiter,|
-field_settings_filename,field_settings_historic.csv
+delimiter,","
+field_settings_filename,field_settings.csv
